@@ -144,25 +144,10 @@ To address the black-box nature of machine learning models, SHAP was used to int
 ## How to Run
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/Tya14/Predicting-Credit-Risk.git
 pip install -r requirements.txt
 ```
 
 ---
 
-## Key Highlights
-- End-to-end machine learning pipeline  
-- Strong emphasis on interpretability  
-- Real-world financial application  
 
----
-
-## Future Improvements
-- Implement gradient boosting models (XGBoost, LightGBM)  
-- Deploy as a web application (Streamlit or Flask)  
-- Conduct fairness and bias analysis  
-
----
-
-## Author
-Your Name
