@@ -1,4 +1,4 @@
-# Credit Risk Prediction using Machine Learning
+# Credit Risk Prediction using Logistic Regression, Random Forests, and AdaBoost
 
 ## Overview
 This project applies modern machine learning techniques to predict credit risk using the German Credit Dataset. It compares traditional statistical methods with advanced ensemble models, while emphasizing both predictive performance and model interpretability.
