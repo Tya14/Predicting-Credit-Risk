@@ -1,169 +1,168 @@
-# Predicting Credit Risk
+# Credit Risk Prediction using Machine Learning
 
 ## Overview
-This project explores the use of modern machine learning techniques to predict credit risk, with a focus on both **model performance** and **interpretability**.
+This project applies modern machine learning techniques to predict credit risk using the German Credit Dataset. It compares traditional statistical methods with advanced ensemble models, while emphasizing both predictive performance and model interpretability.
 
-Traditional models like logistic regression are widely used in finance, but they struggle with capturing complex, non-linear relationships. This project compares them with more advanced models such as **Random Forest** and **AdaBoost**, while also addressing the "black box" problem using explainability tools.
+The study evaluates Logistic Regression, Random Forest, and AdaBoost, and uses SHAP to explain model predictions—bridging the gap between accuracy and transparency in financial decision-making.
 
 ---
 
 ## Objectives
-- Evaluate and compare predictive performance of:
+- Compare predictive performance of:
   - Logistic Regression  
   - Random Forest  
   - AdaBoost  
-- Improve model performance through:
+- Improve model performance via:
   - Feature engineering  
-  - Handling class imbalance  
-- Enhance interpretability using:
-  - SHAP (Shapley Additive Explanations)  
-  - LIME  
-- Provide actionable business insights for lending decisions  
+  - Handling class imbalance (SMOTE)  
+- Enhance interpretability using SHAP  
+- Provide actionable business insights for lending  
 
 ---
 
 ## Dataset
-- **German Credit Dataset** (UCI Machine Learning Repository)
-- 1000 observations with 20 features including:
-  - Credit history  
-  - Loan amount  
-  - Duration  
-  - Employment status  
-  - Age  
-  - Housing  
+- German Credit Dataset (UCI Machine Learning Repository)  
+- 1000 observations, 20 features  
 
-- Target:
-  - `Good Credit Risk (70%)`
-  - `Bad Credit Risk (30%)`
+**Target distribution:**
+- Good credit: 70%  
+- Bad credit: 30%  
 
 ---
 
-## Exploratory Data Analysis
-### Numerical Features
-- Identified skewed distributions (e.g., credit amount, loan duration)
-- Applied **log transformations** to reduce skewness and improve model stability  
+## Data Preprocessing
 
-### Categorical Features
-- Detected imbalanced categories  
-- Combined rare categories based on similar default rates  
-- Applied **one-hot encoding**  
+### Handling Skewed Distributions
+Several numerical variables were highly skewed. Log transformations were applied to improve distribution symmetry and model performance.
 
-### Class Imbalance
-- Addressed using **SMOTE (Synthetic Minority Over-sampling Technique)**  
+<p align="center">
+  <img src="images/before_log.png" width="300"/>
+  <img src="images/after_log.png" width="300"/>
+</p>
+
+---
+
+## Categorical Feature Analysis
+Categorical variables were analyzed for imbalance and default risk. Rare categories with similar risk profiles were grouped to improve model stability.
+
+<p align="center">
+  <img src="images/categorical_analysis.png" width="500"/>
+</p>
 
 ---
 
 ## Feature Engineering
-- Created:
-  - Interaction terms (e.g., numerical × numerical)
-  - Ratio features  
-  - Squared terms for non-linearity  
-- Removed multicollinearity:
-  - Correlation threshold: **0.6**
-  - Reduced features from **69 → 46**
+
+### Techniques Used
+- Interaction features (numerical × numerical)  
+- Ratio features  
+- Polynomial (squared) terms  
+
+### Removing Multicollinearity
+Highly correlated features were removed (threshold = 0.6), reducing features from 69 to 46.
+
+<p align="center">
+  <img src="images/heatmap_before.png" width="300"/>
+  <img src="images/heatmap_after.png" width="300"/>
+</p>
 
 ---
 
-## Models & Methods
+## Models and Methods
 
-### 1. Logistic Regression
+### Logistic Regression
 - Regularization: L1, L2, Elastic Net  
-- Hyperparameter tuning using GridSearchCV  
-- Best ROC-AUC: **0.8497**
+- Hyperparameter tuning via GridSearchCV  
+- ROC-AUC: 0.8497  
+
+### Random Forest (Best Model)
+- Tuned number of trees, depth, and features  
+- ROC-AUC: 0.9259  
+
+### AdaBoost
+- Decision tree base learners  
+- Tuned learning rate and estimators  
+- ROC-AUC: 0.8701  
 
 ---
 
-### 2. Random Forest (Best Model)
-- Extensive hyperparameter tuning:
-  - Number of trees  
-  - Depth  
-  - Feature selection  
-- Best ROC-AUC: **0.9259**
+## Model Performance
 
----
+The ROC curves below compare model performance.  
+Random Forest achieves the strongest predictive performance.
 
-### 3. AdaBoost
-- Weak learners: Decision Trees  
-- Tuned learning rate & estimators  
-- ROC-AUC: **0.8701**
+<p align="center">
+  <img src="images/roc_logistic.png" width="300"/>
+  <img src="images/roc_random_forest.png" width="300"/>
+  <img src="images/roc_adaboost.png" width="300"/>
+</p>
 
----
-
-## 📈 Results Summary
+### Results Summary
 
 | Model               | ROC-AUC | Precision | Recall |
 |--------------------|--------|----------|--------|
 | Logistic Regression | 0.8497 | 0.7603 | 0.7929 |
-| **Random Forest**   | **0.9259** | **0.8769** | **0.8143** |
+| Random Forest       | 0.9259 | 0.8769 | 0.8143 |
 | AdaBoost            | 0.8701 | 0.7879 | 0.7429 |
-
-**Random Forest outperformed all models significantly**
 
 ---
 
-## Model Explainability
+## Model Explainability (SHAP)
 
-### SHAP Insights
+To address the black-box nature of machine learning models, SHAP was used to interpret feature importance and understand predictions.
 
-#### Key Predictors Across Models:
-- Checking account status  
-- Loan duration  
-- Credit history  
-- Loan purpose (new car)  
-- Age  
+<p align="center">
+  <img src="images/rf_shap.png" width="500"/>
+</p>
 
-### Key Takeaways:
-- Applicants **without checking accounts** → higher risk  
-- **Longer loan durations** → higher default probability  
-- Strong **credit history** → lower risk  
-- Age showed unexpected patterns in boosting models  
+### Key Insights
+- Applicants without checking accounts show higher default risk  
+- Loan duration is a strong driver of risk  
+- Credit history is highly predictive of repayment behavior  
+- Age shows non-linear effects in ensemble models  
 
 ---
 
 ## Business Recommendations
 - Require stronger financial verification for applicants without bank accounts  
-- Introduce **shorter loan tenure incentives**  
-- Adjust **interest rates based on loan duration risk**  
-- Use **credit history for risk-based pricing**  
-- Monitor **fairness in age-related predictions**  
+- Encourage shorter loan durations through incentives  
+- Adjust interest rates based on loan duration risk  
+- Use credit history for risk-based pricing  
+- Monitor fairness in age-related predictions  
 
 ---
 
 ## Tech Stack
 - Python  
 - Scikit-learn  
-- Pandas  
-- NumPy  
-- Matplotlib  
-- Seaborn  
+- Pandas and NumPy  
+- Matplotlib and Seaborn  
 - SHAP  
 
 ---
 
 ## How to Run
+
 ```bash
-# Clone repo
 git clone https://github.com/yourusername/your-repo-name.git
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Run notebook or script
 ```
 
 ---
 
 ## Key Highlights
-- End-to-end ML pipeline (EDA → Feature Engineering → Modeling → Explainability)  
-- Strong emphasis on **interpretability**, not just accuracy  
-- Real-world financial application with business insights  
+- End-to-end machine learning pipeline  
+- Strong emphasis on interpretability  
+- Real-world financial application  
 
 ---
 
 ## Future Improvements
-- Incorporate more advanced models (XGBoost, LightGBM)  
-- Deploy as a web app (Streamlit / Flask)  
-- Perform fairness and bias audits  
+- Implement gradient boosting models (XGBoost, LightGBM)  
+- Deploy as a web application (Streamlit or Flask)  
+- Conduct fairness and bias analysis  
 
 ---
 
+## Author
+Your Name
