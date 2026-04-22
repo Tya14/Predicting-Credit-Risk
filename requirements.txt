@@ -1,0 +1,28 @@
+# Core
+numpy
+pandas
+
+# Data source
+ucimlrepo
+
+# Visualization
+matplotlib
+seaborn
+
+# Machine learning
+scikit-learn
+imbalanced-learn
+
+# Explainability
+shap
+lime
+
+# Statistics
+statsmodels
+
+# Utilities (standard library modules not included in pip installs)
+# re
+# collections
+# warnings
+# zipfile
+# itertools
